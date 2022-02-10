@@ -30,7 +30,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 //   });
 
 
-//npx hardhat mint --address 0x0d04Be8a34282b93c552dbBbEFB5Cf7dFD5300E3 --addressto 0x149E6e85b6D9b32702f2a14cB1A4817BA19Ede20 --tokenid 0
+//npx hardhat aprove --address 0x0d04Be8a34282b93c552dbBbEFB5Cf7dFD5300E3 --addressto 0x149E6e85b6D9b32702f2a14cB1A4817BA19Ede20 --tokenid 0
 //npx hardhat rBalance --address <contract address> --network rinkeby
 task("aprove", "aproving transfer opportunity")
   .addParam("address", "The contract address on Rinkeby")
@@ -41,6 +41,19 @@ task("aprove", "aproving transfer opportunity")
     await contract.approve(taskArgs.addressto, taskArgs.tokenid)
     //console.log(await contract.getApproved(taskArgs.tokenid))
     console.log(await contract.balanceOf("0x7e670e2807f96a6df5f936ec37ff92595cefa3e4"))
+
+  });
+
+//npx hardhat balance --address 0x0d04Be8a34282b93c552dbBbEFB5Cf7dFD5300E3
+task("balance", "aproving transfer opportunity")
+  .addParam("address", "The contract address on Rinkeby")
+  .setAction(async (taskArgs, hre) => {
+    const contract = await hre.ethers.getContractAt("NFT", taskArgs.address)
+    try {
+      console.log(await contract.balanceOf("0x7E670e2807F96a6df5F936Ec37ff92595CEFA3E4"))
+    } catch (error) {
+      console.log(error)
+    };
 
   });
 

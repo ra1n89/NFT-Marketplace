@@ -1,9 +1,10 @@
-//0x149E6e85b6D9b32702f2a14cB1A4817BA19Ede20
+//0x973eeb90e409073F749C827b1232f4159AC838f8
+//https://rinkeby.etherscan.io/address/0x973eeb90e409073F749C827b1232f4159AC838f8#code
 
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import "./NFT721.sol";
+import "./NFT.sol";
 
 contract NFTMarket {
     uint256 private listingID = 0;
@@ -32,7 +33,6 @@ contract NFTMarket {
         uint256 _tokenID,
         uint256 _price
     ) public {
-        IERC721(_token).approve(address(this), _tokenID);
         IERC721(_token).transferFrom(msg.sender, address(this), _tokenID);
 
         //     NFT.transferFrom(

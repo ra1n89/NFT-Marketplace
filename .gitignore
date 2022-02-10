@@ -1,8 +1,10 @@
 node_modules
 .env
+.env.example
 coverage
 coverage.json
 typechain
+INFO.md
 
 #Hardhat files
 cache
