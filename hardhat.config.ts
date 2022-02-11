@@ -30,7 +30,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 //   });
 
 
-//npx hardhat aprove --address 0x0d04Be8a34282b93c552dbBbEFB5Cf7dFD5300E3 --addressto 0x149E6e85b6D9b32702f2a14cB1A4817BA19Ede20 --tokenid 0
+//npx hardhat aprove --address 0x0d04Be8a34282b93c552dbBbEFB5Cf7dFD5300E3 --addressto 0x2A6951f0d302a2f890EA8DFB9986402D4F21adc7 --tokenid 0
 //npx hardhat rBalance --address <contract address> --network rinkeby
 task("aprove", "aproving transfer opportunity")
   .addParam("address", "The contract address on Rinkeby")
@@ -54,10 +54,18 @@ task("balance", "aproving transfer opportunity")
     } catch (error) {
       console.log(error)
     };
-
   });
 
-//npx hardhat list --address 0x149E6e85b6D9b32702f2a14cB1A4817BA19Ede20 --addresstoken 0x0d04Be8a34282b93c552dbBbEFB5Cf7dFD5300E3 --tokenid 0 --price 1000  --network rinkeby
+//npx hardhat mint --address 0x0d04Be8a34282b93c552dbBbEFB5Cf7dFD5300E3
+task("mint", "minting new NFT")
+  .addParam("address", "The contract address on Rinkeby")
+  .setAction(async (taskArgs, hre) => {
+    const contract = await hre.ethers.getContractAt("NFT", taskArgs.address)
+    await contract.mint("https://ipfs.io/ipfs/QmTE9QLXSmZD2vuFxUyAuTENJqN45jddpPkxeJuD4aqDgV")
+  });
+
+
+//npx hardhat list --address 0x2A6951f0d302a2f890EA8DFB9986402D4F21adc7 --addresstoken 0x0d04Be8a34282b93c552dbBbEFB5Cf7dFD5300E3 --tokenid 0 --price 1000  --network rinkeby
 task("list", "listing")
   .addParam("address", "The contract address on Rinkeby")
   .addParam("addresstoken", "Token addres")
@@ -66,7 +74,15 @@ task("list", "listing")
   .setAction(async (taskArgs, hre) => {
     const contract = await hre.ethers.getContractAt("NFTMarket", taskArgs.address)
     const balance = await contract.listItem(taskArgs.addresstoken, taskArgs.tokenid, taskArgs.price)
+  });
 
+//npx hardhat cancel --address 0x2A6951f0d302a2f890EA8DFB9986402D4F21adc7 --addresstoken 0x0d04Be8a34282b93c552dbBbEFB5Cf7dFD5300E3 --listing 0 --network rinkeby
+task("cancel", "listing")
+  .addParam("address", "The contract address on Rinkeby")
+  .addParam("listing", "ID of listing")
+  .setAction(async (taskArgs, hre) => {
+    const contract = await hre.ethers.getContractAt("NFTMarket", taskArgs.address)
+    const balance = await contract.cancelListing(taskArgs.listing)
   });
 
 
