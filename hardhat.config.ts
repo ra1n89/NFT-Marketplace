@@ -56,13 +56,14 @@ task("balance", "aproving transfer opportunity")
     };
   });
 
-//npx hardhat mint --address 0x0d04Be8a34282b93c552dbBbEFB5Cf7dFD5300E3
-task("mint", "minting new NFT")
-  .addParam("address", "The contract address on Rinkeby")
-  .setAction(async (taskArgs, hre) => {
-    const contract = await hre.ethers.getContractAt("NFT", taskArgs.address)
-    await contract.mint("https://ipfs.io/ipfs/QmTE9QLXSmZD2vuFxUyAuTENJqN45jddpPkxeJuD4aqDgV")
-  });
+// //npx hardhat mint --address 0x0d04Be8a34282b93c552dbBbEFB5Cf7dFD5300E3
+// task("mint", "minting new NFT")
+//   .addParam("address", "The contract address on Rinkeby")
+//   .setAction(async (taskArgs, hre) => {
+//     const [bob] = await hre.ethers.getSigners();
+//     const contract = await hre.ethers.getContractAt("NFT", taskArgs.address)
+//     await contract.mint("https://ipfs.io/ipfs/QmTE9QLXSmZD2vuFxUyAuTENJqN45jddpPkxeJuD4aqDgV", )
+//   });
 
 
 //npx hardhat list --address 0x2A6951f0d302a2f890EA8DFB9986402D4F21adc7 --addresstoken 0x0d04Be8a34282b93c552dbBbEFB5Cf7dFD5300E3 --tokenid 0 --price 1000  --network rinkeby

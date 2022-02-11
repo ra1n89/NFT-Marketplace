@@ -9,7 +9,7 @@ import "./NFT.sol";
 
 contract NFTMarket is NFT {
     uint256 private listingID = 0;
-    uint256 private auctionID = 0;
+    uint256 public auctionID = 0;
 
     enum Status {
         Active,
@@ -37,8 +37,8 @@ contract NFTMarket is NFT {
         Status status;
     }
 
-    mapping(uint256 => Listing) private listings;
-    mapping(uint256 => Auction) private auctions;
+    mapping(uint256 => Listing) public listings;
+    mapping(uint256 => Auction) public auctions;
     mapping(address => uint256) private biddersPrice;
     address[] private biddersArr;
 
@@ -46,8 +46,8 @@ contract NFTMarket is NFT {
     //     IERC721(_token).mint();
     // }
 
-    function createItem(string memory _tokenURI) private returns (bool) {
-        NFT.mint(_tokenURI);
+    function createItem(string memory _tokenURI) public returns (bool) {
+        NFT.mint(_tokenURI, msg.sender);
         return true;
     }
 
@@ -86,6 +86,8 @@ contract NFTMarket is NFT {
             msg.sender,
             listing.tokenID
         );
+        payable(listing.seller).transfer(listing.price);
+
         listing.status = Status.Sold;
     }
 
@@ -106,7 +108,7 @@ contract NFTMarket is NFT {
         uint256 bidPrice
     ) public {
         address owner = IERC721(_token).ownerOf(_tokenID);
-        require(owner == msg.sender);
+        require(owner == msg.sender, "not an owner");
         IERC721(_token).transferFrom(msg.sender, address(this), _tokenID);
         auctions[auctionID] = Auction({
             seller: msg.sender,
@@ -129,7 +131,7 @@ contract NFTMarket is NFT {
             biddersPrice[msg.sender] > auction.bidPrice,
             "bid should be more then current price"
         );
-        require(auction.seller == msg.sender, "not an owner");
+
         auction.bidPrice = biddersPrice[msg.sender];
         auction.bidCount++;
         auction.lastBidder = msg.sender;
@@ -147,7 +149,7 @@ contract NFTMarket is NFT {
         Auction storage auction = auctions[_auctionID];
         require(auction.seller == msg.sender, "not an owner");
         require(block.timestamp > auction.auctionEndTime, "time isn't over");
-        if (auction.bidCount < 2) {
+        if (auction.bidCount <= 2) {
             for (uint256 i = 0; i < biddersArr.length; i++) {
                 payable(biddersArr[i]).transfer(biddersPrice[biddersArr[i]]);
             }
@@ -156,12 +158,14 @@ contract NFTMarket is NFT {
                 auction.seller,
                 auction.tokenID
             );
+            auction.status = Status.Canceled;
         } else {
             IERC721(auction.token).transferFrom(
                 address(this),
                 auction.lastBidder,
                 auction.tokenID
             );
+            auction.status = Status.Sold;
             payable(auction.seller).transfer(auction.bidPrice);
 
             for (uint256 i = 0; i < biddersArr.length; i++) {
@@ -185,5 +189,6 @@ contract NFTMarket is NFT {
         for (uint256 i = 0; i < biddersArr.length; i++) {
             payable(biddersArr[i]).transfer(biddersPrice[biddersArr[i]]);
         }
+        auction.status = Status.Canceled;
     }
 }
