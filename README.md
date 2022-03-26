@@ -1,17 +1,27 @@
-Контракт Маркетплейса
+# NFT Marketplace
+
+This project implements NFT Marketplace, which allows users to place order for sale or create auction for NFT tokens, and other users can buy them
+
+### Basic functions:
+
+function createItem() - create new NFT 
+function listItem() - place NFT for sale  
+function buyItem() - any user can pay order and buy NFT  
+function cancel() - canceling order  
+function listItemOnAuction() - place NFT in auction for 3 days  
+function makeBid() - any user can make a bid in auction  
+function finishAuction() - after 3 days anyone can finish auction  
+function cancelAuction() - only owner can cancel auction  
 
 
-Маркетплейса, с функцией создания NFT, а также функционала аукциона.
-Требования
-Функция createItem() - создание нового предмета, обращается к контракту NFT и вызывает функцию mint.
-Функция mint(), доступ к которой должен иметь только контракт маркетплейса
-Функция listItem() - выставка на продажу предмета.
-Функция buyItem() - покупка предмета.
-Функция cancel() - отмена продажи выставленного предмета
-Функция listItemOnAuction() - выставка предмета на продажу в аукционе.
-Функция makeBid() - сделать ставку на предмет аукциона с определенным id.
-Функция finishAuction() - завершить аукцион и отправить НФТ победителю
-Функция cancelAuction() - отменить аукцион
-Аукцион длится 3 дня с момента старта аукциона. В течении этого срока аукцион не может быть отменен. В случае если по истечению срока набирается более двух ставок аукцион считается состоявшимся и создатель аукциона его завершает (НФТ переходит к последнему биддеру и токены создателю аукциона). В противном случае токены возвращаются последнему биддеру, а НФТ остается у создателя.
+Verified contract:
+https://rinkeby.etherscan.io/address/0xa319D38927d2df62c392AEb1d2a1daFaE2967585#code
 
-NFT M-place contract address:  https://rinkeby.etherscan.io/address/0xa319D38927d2df62c392AEb1d2a1daFaE2967585#code
+Create a .env file using this template in env.example
+```
+ETHERSCAN_API_KEY=
+RINKEBY_URL=
+PRIVATE_KEY=
+ALCHEMY_API_KEY=
+```
+P.S. not for using in real projects beacause it's not audited

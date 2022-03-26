@@ -23,10 +23,4 @@ contract NFT is ERC721URIStorage {
         _tokenIds.increment();
         return newItemId;
     }
-
-    // function approve(address to, uint256 tokenId) public {
-    //     approve(to, tokenId);
-    // }
 }
-//0x0d04Be8a34282b93c552dbBbEFB5Cf7dFD5300E3
-//https://ethereum.stackexchange.com/questions/121176/error-when-trying-to-verify-contract

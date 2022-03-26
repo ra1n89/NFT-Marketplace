@@ -1,12 +1,14 @@
-//0x2A6951f0d302a2f890EA8DFB9986402D4F21adc7
-//https://rinkeby.etherscan.io/address/0x973eeb90e409073F749C827b1232f4159AC838f8#code
-
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./NFT.sol";
 
+/** @title NFT marketplace
+ * @dev users can place order for sale or create auction for NFT tokens, and other users can buy them
+ * @author Rishat Akhmetzyanov
+ * @notice not for using in real projects beacause it's not properly audited
+ */
 contract NFTMarket is NFT {
     uint256 private listingID = 0;
     uint256 public auctionID = 0;
@@ -42,10 +44,6 @@ contract NFTMarket is NFT {
     mapping(address => uint256) private biddersPrice;
     address[] private biddersArr;
 
-    // function mint(address _token, string memory tokenURI) {
-    //     IERC721(_token).mint();
-    // }
-
     function createItem(string memory _tokenURI) public returns (bool) {
         NFT.mint(_tokenURI, msg.sender);
         return true;
@@ -60,11 +58,6 @@ contract NFTMarket is NFT {
         require(owner == msg.sender, "only owner can list token");
         IERC721(_token).transferFrom(msg.sender, address(this), _tokenID);
 
-        //     NFT.transferFrom(
-        //     address from,
-        //     address to,
-        //     uint256 tokenId
-        // )
         Listing memory listing = Listing({
             seller: msg.sender,
             token: _token,
